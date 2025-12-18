@@ -1,8 +1,6 @@
 package segundo.dam.tuppermania.model;
 
-
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -11,49 +9,51 @@ import java.util.List;
 public class PlanNutricional {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_plan;
-    private LocalDate fecha_inicio;
-    private LocalDate fecha_fin;
+    @Column(name = "id_plan")
+    private Long idPlan;
+
+    @Column(name = "fecha_inicio")
+    private LocalDate fechaInicio;
+
+    @Column(name = "fecha_fin")
+    private LocalDate fechaFin;
+
     private String objetivo;
-    private Integer calorias_totales;
+
+    @Column(name = "calorias_totales")
+    private Integer caloriasTotales;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario")
+    @JoinColumn(name = "id_usuario") // Consistente con el id_usuario de la tabla Usuario
     private Usuario usuario;
 
     @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL)
     private List<PlanPlato> platosAsignados;
 
-    public Usuario getUsuario() {
-        return usuario;
+    // --- GETTERS Y SETTERS ---
+
+    public Long getIdPlan() {
+        return idPlan;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdPlan(Long idPlan) {
+        this.idPlan = idPlan;
     }
 
-    public Long getId_plan() {
-        return id_plan;
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setId_plan(Long id_plan) {
-        this.id_plan = id_plan;
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
-    public LocalDate getFecha_inicio() {
-        return fecha_inicio;
+    public LocalDate getFechaFin() {
+        return fechaFin;
     }
 
-    public void setFecha_inicio(LocalDate fecha_inicio) {
-        this.fecha_inicio = fecha_inicio;
-    }
-
-    public LocalDate getFecha_fin() {
-        return fecha_fin;
-    }
-
-    public void setFecha_fin(LocalDate fecha_fin) {
-        this.fecha_fin = fecha_fin;
+    public void setFechaFin(LocalDate fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
     public String getObjetivo() {
@@ -64,12 +64,20 @@ public class PlanNutricional {
         this.objetivo = objetivo;
     }
 
-    public Integer getCalorias_totales() {
-        return calorias_totales;
+    public Integer getCaloriasTotales() {
+        return caloriasTotales;
     }
 
-    public void setCalorias_totales(Integer calorias_totales) {
-        this.calorias_totales = calorias_totales;
+    public void setCaloriasTotales(Integer caloriasTotales) {
+        this.caloriasTotales = caloriasTotales;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public List<PlanPlato> getPlatosAsignados() {
@@ -79,7 +87,4 @@ public class PlanNutricional {
     public void setPlatosAsignados(List<PlanPlato> platosAsignados) {
         this.platosAsignados = platosAsignados;
     }
-
-
-
 }

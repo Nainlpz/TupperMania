@@ -6,9 +6,12 @@ import segundo.dam.tuppermania.model.enums.Sexo;
 @Entity
 @Table(name = "perfil_fisico")
 public class PerfilFisico {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_perfil;
+    @Column(name = "id_perfil")
+    private Long idPerfil; // Refactorizado a camelCase
+
     private Double peso;
     private Double altura;
     private Integer edad;
@@ -16,27 +19,20 @@ public class PerfilFisico {
     private String intolerancias;
 
     @Enumerated(EnumType.STRING)
-    private Sexo sexo; // Crear Enum Sexo
+    private Sexo sexo;
 
     @OneToOne
-    @JoinColumn(name = "id_usuario")
+    @JoinColumn(name = "id_usuario") // Apunta a la columna física en la DB
     private Usuario usuario;
 
+    // --- GETTERS Y SETTERS ---
 
-    public Integer getEdad() {
-        return edad;
+    public Long getIdPerfil() {
+        return idPerfil;
     }
 
-    public void setEdad(Integer edad) {
-        this.edad = edad;
-    }
-
-    public Long getId_perfil() {
-        return id_perfil;
-    }
-
-    public void setId_perfil(Long id_perfil) {
-        this.id_perfil = id_perfil;
+    public void setIdPerfil(Long idPerfil) {
+        this.idPerfil = idPerfil;
     }
 
     public Double getPeso() {
@@ -53,6 +49,14 @@ public class PerfilFisico {
 
     public void setAltura(Double altura) {
         this.altura = altura;
+    }
+
+    public Integer getEdad() {
+        return edad;
+    }
+
+    public void setEdad(Integer edad) {
+        this.edad = edad;
     }
 
     public String getAlergias() {
@@ -86,5 +90,4 @@ public class PerfilFisico {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
 }

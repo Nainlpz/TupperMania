@@ -2,21 +2,25 @@ package segundo.dam.tuppermania.model;
 
 import jakarta.persistence.*;
 import segundo.dam.tuppermania.model.enums.Rol;
-
 import java.util.List;
 
 @Entity
 @Table(name = "usuario")
 public class Usuario {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_usuario;
-    private String nombre_usuario;
+    @Column(name = "id_usuario")
+    private Long idUsuario;
+
+    @Column(name = "nombre_usuario")
+    private String nombreUsuario; // Refactorizado a camelCase
+
     private String contrasena;
     private String correo;
 
     @Enumerated(EnumType.STRING)
-    private Rol rol; // Debes crear el Enum Rol
+    private Rol rol;
 
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private PerfilFisico perfilFisico;
@@ -24,21 +28,22 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<PlanNutricional> planes;
 
+    // --- GETTERS Y SETTERS ---
 
-    public String getNombre_usuario() {
-        return nombre_usuario;
+    public Long getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setNombre_usuario(String nombre_usuario) {
-        this.nombre_usuario = nombre_usuario;
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public Long getId_usuario() {
-        return id_usuario;
+    public String getNombreUsuario() {
+        return nombreUsuario;
     }
 
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
     public String getContrasena() {

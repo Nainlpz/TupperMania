@@ -1,17 +1,18 @@
 package segundo.dam.tuppermania.model;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
 @Table(name = "plato")
 public class Plato {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_plato;
-    private String nombre;
+    @Column(name = "id_plato")
+    private Long idPlato; // Refactorizado a camelCase
 
+    private String nombre;
 
     @Column(columnDefinition = "TEXT")
     private String descripcion;
@@ -21,6 +22,15 @@ public class Plato {
     @OneToMany(mappedBy = "plato")
     private List<PlanPlato> planesDondeAparece;
 
+    // --- GETTERS Y SETTERS ACTUALIZADOS ---
+
+    public Long getIdPlato() {
+        return idPlato;
+    }
+
+    public void setIdPlato(Long idPlato) {
+        this.idPlato = idPlato;
+    }
 
     public String getNombre() {
         return nombre;
@@ -28,14 +38,6 @@ public class Plato {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public Long getId_plato() {
-        return id_plato;
-    }
-
-    public void setId_plato(Long id_plato) {
-        this.id_plato = id_plato;
     }
 
     public String getDescripcion() {
@@ -52,5 +54,13 @@ public class Plato {
 
     public void setCalorias(Integer calorias) {
         this.calorias = calorias;
+    }
+
+    public List<PlanPlato> getPlanesDondeAparece() {
+        return planesDondeAparece;
+    }
+
+    public void setPlanesDondeAparece(List<PlanPlato> planesDondeAparece) {
+        this.planesDondeAparece = planesDondeAparece;
     }
 }
