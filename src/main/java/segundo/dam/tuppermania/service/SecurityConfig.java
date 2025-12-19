@@ -19,10 +19,18 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Deshabilitado para pruebas con Postman
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/usuarios/**").permitAll() // Abierto para desarrollo
+                        .requestMatchers("/", "/home", "/registro", "/login", "/css/**", "/img/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(withDefaults())
-                .logout(logout -> logout.permitAll());
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/home", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/")
+                        .permitAll()
+                );
 
         return http.build();
     }
