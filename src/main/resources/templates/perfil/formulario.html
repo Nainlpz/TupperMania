@@ -8,6 +8,12 @@
 <body>
 <div th:replace="~{fragments/nav :: nav}"></div>
 
+<div class="container mt-4" th:if="${mensajeError}">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong th:text="${mensajeError}">Mensaje</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
