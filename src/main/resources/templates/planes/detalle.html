@@ -9,6 +9,21 @@
         .cell-meal { min-height: 100px; font-size: 0.9rem; }
         .meal-title { font-weight: bold; color: #198754; display: block;}
         .meal-cal { font-size: 0.8rem; color: #6c757d; }
+
+        /* --- ESTILOS DE IMPRESIÓN (PDF) --- */
+        @media print {
+            /* Ocultar elementos que no queremos en el PDF */
+            .navbar, .breadcrumb, .card-footer, .btn, .no-print {
+                display: none !important;
+            }
+            /* Ajustes para que la tabla se vea bien en papel */
+            body { padding-top: 0; background-color: white; }
+            .container { max-width: 100%; margin: 0; padding: 0; }
+            .card { border: none; shadow: none; }
+            .table-diet th { background-color: #e9ecef !important; -webkit-print-color-adjust: exact; }
+            /* Romper página si es necesario */
+            .page-break { page-break-before: always; }
+        }
     </style>
 </head>
 <body>
@@ -42,12 +57,11 @@
                 <tbody>
                 <tr th:each="dia : ${dias}">
                     <td class="fw-bold text-center bg-light" th:text="${dia}">LUNES</td>
-
                     <td th:each="tipo : ${comidas}" th:if="${tipo.name() != 'MEDIA_MANANA' && tipo.name() != 'MERIENDA'}">
                         <div th:each="pp : ${plan.platosAsignados}"
                              th:if="${pp.diaSemana == dia && pp.tipoComida == tipo}"
                              class="cell-meal">
-                            <span class="meal-title" th:text="${pp.plato.nombre}">Nombre Plato</span>
+                            <span class="meal-title" th:text="${pp.plato.nombre}">Plato</span>
                             <span th:text="${pp.plato.descripcion}">Desc</span>
                             <br>
                             <span class="meal-cal">🔥 <span th:text="${pp.plato.calorias}"></span> kcal</span>
@@ -57,9 +71,15 @@
                 </tbody>
             </table>
         </div>
-        <div class="card-footer text-end">
-            <a href="#" class="btn btn-outline-secondary">🖨️ Imprimir</a>
-            <a href="/planes/lista-compra" class="btn btn-warning">🛒 Ver Lista de Compra</a>
+
+        <div class="card-footer text-end no-print">
+            <button onclick="window.print()" class="btn btn-outline-secondary me-2">
+                🖨️ Imprimir / Guardar PDF
+            </button>
+
+            <a th:href="@{/planes/{id}/lista-compra(id=${plan.idPlan})}" class="btn btn-warning">
+                🛒 Ver Lista de Compra
+            </a>
         </div>
     </div>
 </div>

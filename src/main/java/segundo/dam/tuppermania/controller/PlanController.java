@@ -12,6 +12,9 @@ import segundo.dam.tuppermania.model.enums.TipoComida;
 import segundo.dam.tuppermania.repository.UsuarioRepository;
 import segundo.dam.tuppermania.service.PlanNutricionalService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/planes")
 public class PlanController {
@@ -38,6 +41,23 @@ public class PlanController {
         model.addAttribute("comidas", TipoComida.values());
 
         return "planes/detalle";
+    }
+
+    @GetMapping("/{id}/lista-compra")
+    public String verListaCompra(@PathVariable Long id, Model model) {
+        PlanNutricional plan = planService.obtenerPlanPorId(id);
+
+        List<String> totalIngredientes = new ArrayList<>();
+
+        if (plan.getListaCompraResumida() != null && !plan.getListaCompraResumida().isEmpty()) {
+            String[] items = plan.getListaCompraResumida().split(";");
+            totalIngredientes = List.of(items);
+        }
+
+        model.addAttribute("plan", plan);
+        model.addAttribute("totalIngredientes", totalIngredientes);
+
+        return "planes/compra";
     }
 
     @PostMapping("/generar")
