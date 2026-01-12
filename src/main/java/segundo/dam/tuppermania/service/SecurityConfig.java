@@ -18,6 +18,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Deshabilitado para pruebas con Postman
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/planes/**", "/perfil/**").authenticated()
                         .requestMatchers("/api/usuarios/**").permitAll() // Abierto para desarrollo
                         .requestMatchers("/", "/home", "/registro", "/login", "/css/**", "/img/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
