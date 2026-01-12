@@ -3,6 +3,7 @@ package segundo.dam.tuppermania.model;
 import jakarta.persistence.*;
 import segundo.dam.tuppermania.model.enums.Rol;
 import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "usuario")
@@ -27,6 +28,14 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<PlanNutricional> planes;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "usuario_favoritos",
+            joinColumns = @JoinColumn(name = "id_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "id_plato")
+    )
+    private List<Plato> platosFavoritos = new ArrayList<>();
 
     // --- GETTERS Y SETTERS ---
 
@@ -85,4 +94,7 @@ public class Usuario {
     public void setPlanes(List<PlanNutricional> planes) {
         this.planes = planes;
     }
+
+    public List<Plato> getPlatosFavoritos() { return platosFavoritos; }
+    public void setPlatosFavoritos(List<Plato> platosFavoritos) { this.platosFavoritos = platosFavoritos; }
 }

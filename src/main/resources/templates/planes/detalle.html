@@ -61,7 +61,13 @@
                         <div th:each="pp : ${plan.platosAsignados}"
                              th:if="${pp.diaSemana == dia && pp.tipoComida == tipo}"
                              class="cell-meal">
-                            <span class="meal-title" th:text="${pp.plato.nombre}">Plato</span>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <span class="meal-title" th:text="${pp.plato.nombre}">Plato</span>
+
+                                <a th:href="@{/favoritos/toggle/{id}(id=${pp.plato.idPlato})}" class="text-decoration-none no-print">
+                                    ❤️
+                                </a>
+                            </div>
                             <span th:text="${pp.plato.descripcion}">Desc</span>
                             <br>
                             <span class="meal-cal">🔥 <span th:text="${pp.plato.calorias}"></span> kcal</span>
