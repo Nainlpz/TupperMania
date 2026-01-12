@@ -11,6 +11,11 @@
                     <a class="nav-link" href="/planes">Mis Planes</a>
                 </li>
             </ul>
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link text-warning fw-bold" href="/admin/platos">⚙️ Administración</a>
+                </li>
+            </ul>
             <div class="d-flex">
                 <div sec:authorize="!isAuthenticated()">
                     <a href="/login" class="btn btn-outline-light me-2">Entrar</a>
