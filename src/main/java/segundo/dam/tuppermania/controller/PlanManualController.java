@@ -60,6 +60,7 @@ public class PlanManualController {
     public String seleccionarPlato(@RequestParam Long idPlan,
                                    @RequestParam String dia,
                                    @RequestParam String comida,
+                                   @RequestParam(required = false) String busqueda,
                                    Model model, Authentication auth) {
 
         Usuario usuario = usuarioRepository.findByCorreo(auth.getName()).orElseThrow();
@@ -68,7 +69,15 @@ public class PlanManualController {
         model.addAttribute("dia", dia);
         model.addAttribute("comida", comida);
         model.addAttribute("favoritos", usuario.getPlatosFavoritos());
-        model.addAttribute("todosLosPlatos", platoRepository.findAll());
+
+        if (busqueda != null && !busqueda.isEmpty()) {
+            model.addAttribute("todosLosPlatos", platoRepository.findByNombreContainingIgnoreCase(busqueda));
+            model.addAttribute("busquedaActual", busqueda);
+            model.addAttribute("tabActiva", "all");
+        } else {
+            model.addAttribute("todosLosPlatos", platoRepository.findAll());
+            model.addAttribute("tabActiva", "favs");
+        }
 
         return "planes/manual-selector";
     }
