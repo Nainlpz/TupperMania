@@ -90,6 +90,31 @@ public class PlanNutricionalService {
         return plan;
     }
 
+    public void asignarPlatoManual(Long idPlan, Long idPlato, String dia, String comida) {
+        PlanNutricional plan = obtenerPlanPorId(idPlan);
+        Plato plato = platoRepository.findById(idPlato).orElseThrow();
+
+        DiaSemana diaEnum = DiaSemana.valueOf(dia);
+        TipoComida comidaEnum = TipoComida.valueOf(comida);
+
+        PlanPlato asignacion = plan.getPlatosAsignados().stream()
+                .filter(pp -> pp.getDiaSemana() == diaEnum && pp.getTipoComida() == comidaEnum)
+                .findFirst()
+                .orElse(null);
+
+        if (asignacion != null) {
+            asignacion.setPlato(plato);
+        } else {
+            asignacion = new PlanPlato();
+            asignacion.setPlan(plan);
+            asignacion.setPlato(plato);
+            asignacion.setDiaSemana(diaEnum);
+            asignacion.setTipoComida(comidaEnum);
+            plan.getPlatosAsignados().add(asignacion);
+        }
+        planRepository.save(plan);
+    }
+
     private Integer calcularCaloriasTotales(DietaGeneradaDTO dto) {
         int totalSemana = dto.getDias().stream()
                 .flatMap(d -> d.getComidas().stream())

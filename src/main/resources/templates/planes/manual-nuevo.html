@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Nuevo Plan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"></head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<div class="container mt-5" style="max-width: 600px;">
+    <div class="card shadow">
+        <div class="card-header bg-success text-white"><h3>🛠️ Crear Plan Manual</h3></div>
+        <div class="card-body">
+            <form th:action="@{/planes/manual/crear}" method="post" th:object="${plan}">
+                <div class="mb-3">
+                    <label>Nombre del Objetivo / Plan</label>
+                    <input type="text" th:field="*{objetivo}" class="form-control" placeholder="Ej: Semana Vegana" required>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Comenzar a Diseñar ➡️</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
