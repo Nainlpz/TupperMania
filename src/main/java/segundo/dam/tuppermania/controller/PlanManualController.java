@@ -47,7 +47,11 @@ public class PlanManualController {
 
         model.addAttribute("plan", plan);
         model.addAttribute("dias", DiaSemana.values());
-        model.addAttribute("comidas", TipoComida.values());
+        model.addAttribute("comidas", java.util.List.of(
+                TipoComida.DESAYUNO,
+                TipoComida.COMIDA,
+                TipoComida.CENA
+        ));
 
         return "planes/manual-editor";
     }

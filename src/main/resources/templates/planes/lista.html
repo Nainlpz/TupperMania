@@ -14,7 +14,7 @@
 
         <form th:action="@{/planes/generar}" method="post" onsubmit="mostrarCargando()">
             <button type="submit" class="btn btn-success btn-lg shadow" id="btnGenerar">
-                ✨ Generar Nuevo Plan con IA
+                ✨ Generar Nuevo Plan
             </button>
         </form>
         <a href="/planes/manual/nuevo" class="btn btn-outline-success">🛠️ Crear Plan Manualmente</a>
@@ -35,14 +35,27 @@
 
         <div class="col-md-4 mb-4" th:each="plan : ${planes}">
             <div class="card h-100 shadow-sm hover-effect">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title text-primary">Plan Semanal</h5>
                     <h6 class="card-subtitle mb-2 text-muted" th:text="${plan.fechaInicio}">Fecha</h6>
-                    <p class="card-text">
+
+                    <p class="card-text flex-grow-1">
                         <strong>Objetivo:</strong> <span th:text="${plan.objetivo}"></span><br>
                         <strong>Calorías/día:</strong> <span th:text="${plan.caloriasTotales}"></span> kcal
                     </p>
-                    <a th:href="@{/planes/{id}(id=${plan.idPlan})}" class="btn btn-outline-primary w-100">Ver Detalles</a>
+
+                    <div class="d-flex gap-2 mt-3">
+                        <a th:href="@{/planes/{id}(id=${plan.idPlan})}" class="btn btn-outline-primary flex-grow-1">
+                            Ver Detalles
+                        </a>
+
+                        <a th:href="@{/planes/borrar/{id}(id=${plan.idPlan})}"
+                           class="btn btn-outline-danger"
+                           onclick="return confirm('¿Estás seguro de que quieres eliminar este plan? No se puede deshacer.')"
+                           title="Eliminar Plan">
+                            🗑️
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

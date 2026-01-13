@@ -41,9 +41,10 @@
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h3 class="mb-0">📅 Tu Menú Semanal</h3>
             <span class="badge bg-light text-dark fs-6">
-                    <span th:text="${plan.caloriasTotales}"></span> kcal/día (aprox)
-                </span>
+                <span th:text="${plan.caloriasTotales}"></span> kcal/día (aprox)
+            </span>
         </div>
+
         <div class="card-body p-0 table-responsive">
             <table class="table table-bordered table-diet mb-0">
                 <thead class="table-dark">
@@ -57,17 +58,23 @@
                 <tbody>
                 <tr th:each="dia : ${dias}">
                     <td class="fw-bold text-center bg-light" th:text="${dia}">LUNES</td>
+
                     <td th:each="tipo : ${comidas}" th:if="${tipo.name() != 'MEDIA_MANANA' && tipo.name() != 'MERIENDA'}">
+
                         <div th:each="pp : ${plan.platosAsignados}"
                              th:if="${pp.diaSemana == dia && pp.tipoComida == tipo}"
                              class="cell-meal">
+
                             <div class="d-flex justify-content-between align-items-start">
                                 <span class="meal-title" th:text="${pp.plato.nombre}">Plato</span>
 
-                                <a th:href="@{/favoritos/toggle/{id}(id=${pp.plato.idPlato})}" class="text-decoration-none no-print">
-                                    ❤️
+                                <a th:href="@{/favoritos/toggle/{id}(id=${pp.plato.idPlato})}"
+                                   class="text-decoration-none no-print fs-5"
+                                   th:text="${idsFavoritos.contains(pp.plato.idPlato)} ? '❤️' : '🖤'"
+                                   title="Añadir/Quitar de favoritos">
                                 </a>
                             </div>
+
                             <span th:text="${pp.plato.descripcion}">Desc</span>
                             <br>
                             <span class="meal-cal">🔥 <span th:text="${pp.plato.calorias}"></span> kcal</span>
@@ -79,6 +86,10 @@
         </div>
 
         <div class="card-footer text-end no-print">
+            <a th:href="@{/planes/editar/{id}(id=${plan.idPlan})}" class="btn btn-outline-primary me-2">
+                ✏️ Editar / Cambiar Platos
+            </a>
+
             <button onclick="window.print()" class="btn btn-outline-secondary me-2">
                 🖨️ Imprimir / Guardar PDF
             </button>
