@@ -6,14 +6,21 @@
                 <li class="nav-item"><a class="nav-link" href="/home">Inicio</a></li>
 
                 <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" href="/perfil/nuevo">Mi Perfil</a> </li>
+                    <a class="nav-link" href="/perfil/nuevo">Mi Perfil</a>
+                </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link" href="/planes">Mis Planes</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" href="/perfil/contrasena">Cambiar Contraseña</a>
                 </li>
             </ul>
             <ul class="navbar-nav me-auto">
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link text-warning fw-bold" href="/admin/platos">⚙️ Administración</a>
+                    <a class="nav-link text-warning fw-bold" href="/admin/platos">⚙️ Administrar Platos</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link text-warning fw-bold" href="/admin/usuarios">⚙️ Administrar Usuarios</a>
                 </li>
             </ul>
             <div class="d-flex">

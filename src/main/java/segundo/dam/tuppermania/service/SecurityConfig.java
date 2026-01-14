@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/planes/**", "/perfil/**").authenticated()
-                        .requestMatchers("/api/usuarios/**").permitAll() // Abierto para desarrollo
+                        .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
                         .requestMatchers("/", "/home", "/registro", "/login", "/css/**", "/img/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
