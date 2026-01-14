@@ -5,6 +5,10 @@ import segundo.dam.tuppermania.model.enums.Rol;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Entidad principal que representa al usuario del sistema.
+ * Gestiona credenciales, roles y relaciones con perfiles y planes.
+ */
 @Entity
 @Table(name = "usuario")
 public class Usuario {

@@ -9,6 +9,11 @@ import segundo.dam.tuppermania.repository.PlatoRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/**
+ * Controlador de administración.
+ * Gestiona el CRUD completo de los Platos (Biblioteca Global).
+ * Protegido por configuración de seguridad (solo rol ADMIN).
+ */
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -35,6 +40,10 @@ public class AdminController {
         return "redirect:/admin/platos";
     }
 
+    /**
+     * Intenta eliminar un plato controlando la integridad referencial.
+     * Si el plato se usa en alguna dieta de usuario, impide el borrado.
+     */
     @GetMapping("/platos/borrar/{id}")
     public String borrarPlato(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {

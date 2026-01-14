@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 import segundo.dam.tuppermania.model.enums.DiaSemana;
 import segundo.dam.tuppermania.model.enums.TipoComida;
 
+/**
+ * Entidad intermedia que resuelve la relación N:N entre PlanNutricional y Plato.
+ * A diferencia de una relación @ManyToMany estándar, esta entidad añade atributos
+ * contextuales cruciales: el día de la semana y el tipo de comida (Desayuno, Cena...).
+ */
 @Entity
 @Table(name = "plan_plato")
 public class PlanPlato {

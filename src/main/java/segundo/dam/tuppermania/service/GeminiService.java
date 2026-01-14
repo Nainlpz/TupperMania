@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service;
 import segundo.dam.tuppermania.model.PerfilFisico;
 import segundo.dam.tuppermania.model.dto.DietaGeneradaDTO;
 
+/**
+ * Servicio encargado de la comunicación con la API de Google Gemini.
+ * Transforma los requerimientos del perfil físico en un prompt estructurado
+ * y parsea la respuesta para convertirla en objetos de dominio.
+ */
 @Service
 public class GeminiService {
 
@@ -20,7 +25,14 @@ public class GeminiService {
         this.objectMapper = new ObjectMapper();
     }
 
+    /**
+     * Genera una estructura de dieta completa basada en el perfil del usuario.
+     * @param perfil Datos físicos y objetivos del usuario.
+     * @return DTO con la dieta estructurada y lista de compra.
+     * @throws RuntimeException si falla la comunicación o el parseo del JSON.
+     */
     public DietaGeneradaDTO generarDieta(PerfilFisico perfil) {
+        // Inicializamos el cliente de Gemini con la API Key inyectada
         Client client = Client.builder()
                 .apiKey(apiKey)
                 .build();
@@ -28,6 +40,7 @@ public class GeminiService {
         String prompt = construirPrompt(perfil);
 
         try {
+            // Solicitud al modelo flash para mayor velocidad de respuesta
             GenerateContentResponse response = client.models.generateContent(
                     "gemini-2.5-flash",
                     prompt,
@@ -36,6 +49,7 @@ public class GeminiService {
 
             String textoRespuesta = response.text();
 
+            // Procesamos el texto para asegurar que sea un JSON válido antes de mapearlo
             return parsearRespuestaGemini(textoRespuesta);
 
         } catch (Exception e) {
@@ -44,6 +58,10 @@ public class GeminiService {
         }
     }
 
+    /**
+     * Construye el prompt con ingeniería de instrucciones para forzar
+     * una salida JSON estricta y consolidación de ingredientes.
+     */
     private String construirPrompt(PerfilFisico p) {
         return """
             Actúa como un nutricionista experto. Crea un plan semanal JSON para:
@@ -100,6 +118,10 @@ public class GeminiService {
         );
     }
 
+    /**
+     * Limpia la respuesta de la IA. A veces Gemini envuelve el JSON en bloques
+     * de código markdown (```json ... ```), lo cual rompe el parser de Jackson.
+     */
     private DietaGeneradaDTO parsearRespuestaGemini(String textoJson) {
         try {
             if (textoJson.contains("```json")) {

@@ -18,6 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Controlador principal para la gestión de planes nutricionales por parte del usuario.
+ * Permite listar, visualizar detalles, generar nuevos planes (vía IA) y borrarlos.
+ */
 @Controller
 @RequestMapping("/planes")
 public class PlanController {
@@ -38,6 +42,10 @@ public class PlanController {
         return "planes/lista";
     }
 
+    /**
+     * Muestra el detalle completo de un plan semanal.
+     * Inyecta también la lista de favoritos para permitir marcarlos directamente desde la vista.
+     */
     @GetMapping("/{id}")
     public String verPlan(@PathVariable Long id, Model model, Authentication auth) {
         PlanNutricional plan = planService.obtenerPlanPorId(id);
@@ -45,18 +53,15 @@ public class PlanController {
         // Recuperar usuario para saber sus favoritos
         Usuario usuario = usuarioRepository.findByCorreo(auth.getName()).orElseThrow();
 
-        // Creamos una lista SOLO con los IDs de los platos favoritos para comprobar rápido en el HTML
+        // Crear lista de IDs de platos favoritos
         List<Long> idsFavoritos = usuario.getPlatosFavoritos().stream()
                 .map(Plato::getIdPlato)
                 .collect(Collectors.toList());
 
         model.addAttribute("plan", plan);
         model.addAttribute("dias", DiaSemana.values());
-
-        // FILTRO DE COMIDAS: Solo mostramos Desayuno, Comida y Cena en la vista
         model.addAttribute("comidas", List.of(TipoComida.DESAYUNO, TipoComida.COMIDA, TipoComida.CENA));
-
-        model.addAttribute("idsFavoritos", idsFavoritos); // <--- NUEVO: Pasamos los favoritos
+        model.addAttribute("idsFavoritos", idsFavoritos);
 
         return "planes/detalle";
     }
@@ -72,6 +77,10 @@ public class PlanController {
         return "redirect:/planes/manual/editor/" + id;
     }
 
+    /**
+     * Vista específica para la lista de la compra.
+     * Parsea el string consolidado de ingredientes para mostrarlo como lista de check.
+     */
     @GetMapping("/{id}/lista-compra")
     public String verListaCompra(@PathVariable Long id, Model model) {
         PlanNutricional plan = planService.obtenerPlanPorId(id);
@@ -89,6 +98,10 @@ public class PlanController {
         return "planes/compra";
     }
 
+    /**
+     * Dispara el proceso de generación automática de dieta usando IA.
+     * Maneja excepciones si el perfil físico no existe.
+     */
     @PostMapping("/generar")
     public String generarPlan(Authentication auth, org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes) {
         Usuario usuario = usuarioRepository.findByCorreo(auth.getName()).orElseThrow();

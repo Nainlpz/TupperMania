@@ -11,6 +11,10 @@ import segundo.dam.tuppermania.model.Usuario;
 import segundo.dam.tuppermania.repository.UsuarioRepository;
 import java.util.Collections;
 
+/**
+ * Adaptador personalizado para integrar nuestro modelo de Usuario con Spring Security.
+ * Se encarga de cargar los usuarios desde la base de datos durante el proceso de login.
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 

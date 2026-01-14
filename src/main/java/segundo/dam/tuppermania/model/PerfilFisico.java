@@ -5,6 +5,11 @@ import segundo.dam.tuppermania.model.enums.NivelActividad;
 import segundo.dam.tuppermania.model.enums.Objetivo;
 import segundo.dam.tuppermania.model.enums.Sexo;
 
+/**
+ * Contiene la información antropométrica y de salud del usuario.
+ * Estos datos son esenciales para que el algoritmo de IA (GeminiService)
+ * pueda personalizar la dieta correctamente.
+ */
 @Entity
 @Table(name = "perfil_fisico")
 public class PerfilFisico {

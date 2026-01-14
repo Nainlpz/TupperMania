@@ -5,6 +5,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entidad central que agrupa la planificación semanal de un usuario.
+ * Almacena el resumen del plan (fechas, objetivo, calorías medias) y
+ * mantiene la lista de recetas asignadas a través de la relación con PlanPlato.
+ */
 @Entity
 @Table(name = "plan_nutricional")
 public class PlanNutricional {

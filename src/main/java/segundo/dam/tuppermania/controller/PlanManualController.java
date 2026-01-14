@@ -30,6 +30,10 @@ public class PlanManualController {
         return "planes/manual-nuevo";
     }
 
+    /**
+     * Inicializa un plan vacío (esqueleto) asociado al usuario actual
+     * para empezar a rellenarlo manualmente.
+     */
     @PostMapping("/crear")
     public String crearEsqueletoPlan(@ModelAttribute PlanNutricional plan, Authentication auth) {
         Usuario usuario = usuarioRepository.findByCorreo(auth.getName()).orElseThrow();
@@ -56,6 +60,10 @@ public class PlanManualController {
         return "planes/manual-editor";
     }
 
+    /**
+     * Muestra la vista de selección de plato. Soporta búsqueda y pestañas
+     * (Favoritos vs Todos) mediante parámetros de control en el modelo.
+     */
     @GetMapping("/seleccionar")
     public String seleccionarPlato(@RequestParam Long idPlan,
                                    @RequestParam String dia,
@@ -70,6 +78,7 @@ public class PlanManualController {
         model.addAttribute("comida", comida);
         model.addAttribute("favoritos", usuario.getPlatosFavoritos());
 
+        // Lógica de filtrado para la búsqueda
         if (busqueda != null && !busqueda.isEmpty()) {
             model.addAttribute("todosLosPlatos", platoRepository.findByNombreContainingIgnoreCase(busqueda));
             model.addAttribute("busquedaActual", busqueda);

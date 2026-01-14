@@ -11,6 +11,10 @@ import segundo.dam.tuppermania.model.Usuario;
 import segundo.dam.tuppermania.model.enums.Rol;
 import segundo.dam.tuppermania.repository.UsuarioRepository;
 
+/**
+ * Controlador encargado de la gestión de acceso y registro de nuevos usuarios.
+ * Maneja las vistas públicas de login y registro.
+ */
 @Controller
 public class AuthController {
 
@@ -30,6 +34,10 @@ public class AuthController {
         return "registro";
     }
 
+    /**
+     * Procesa el formulario de registro.
+     * Encripta la contraseña y asigna el rol por defecto (USUARIO) antes de persistir.
+     */
     @PostMapping("/registro")
     public String registrarUsuario(@ModelAttribute Usuario usuario) {
         usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));

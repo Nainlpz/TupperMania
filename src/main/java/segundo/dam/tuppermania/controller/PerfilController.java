@@ -13,6 +13,10 @@ import segundo.dam.tuppermania.model.Usuario;
 import segundo.dam.tuppermania.repository.PerfilFisicoRepository;
 import segundo.dam.tuppermania.repository.UsuarioRepository;
 
+/**
+ * Gestiona la creación y edición del perfil físico del usuario.
+ * Garantiza que cada usuario tenga vinculado un único perfil.
+ */
 @Controller
 @RequestMapping("/perfil")
 public class PerfilController {
